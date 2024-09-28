@@ -1,0 +1,80 @@
+﻿<UserControl x:Class="OA_Downloader.ListViewControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:local="clr-namespace:OA_Downloader">
+    <UserControl.Resources>
+        <!-- 定义复选框列的 DataTemplate -->
+        <DataTemplate x:Key="SelectColumnTemplate">
+            <CheckBox IsChecked="{Binding IsSelected}"
+                      Visibility="{Binding IsSelectionEnabled, Converter={StaticResource BoolToVisibilityConverter}}" />
+        </DataTemplate>
+        
+        <!-- 定义 ListViewItem 的样式 -->
+        <Style TargetType="ListViewItem">
+            <!-- <Setter Property="Focusable" Value="False"/> -->
+            <Setter Property="RenderTransformOrigin" Value="0.5,0.5"/>
+            <Setter Property="RenderTransform">
+                <Setter.Value>
+                    <ScaleTransform ScaleX="1" ScaleY="1"/>
+                </Setter.Value>
+            </Setter>
+            <Style.Triggers>
+                <!-- 当鼠标悬停时，行放大 -->
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Trigger.EnterActions>
+                        <BeginStoryboard>
+                            <Storyboard>
+                                <DoubleAnimation Storyboard.TargetProperty="(UIElement.RenderTransform).(ScaleTransform.ScaleX)"
+                                                 To="1.01" Duration="0:0:0.2"/>
+                                <DoubleAnimation Storyboard.TargetProperty="(UIElement.RenderTransform).(ScaleTransform.ScaleY)"
+                                                 To="1.01" Duration="0:0:0.2"/>
+                            </Storyboard>
+                        </BeginStoryboard>
+                    </Trigger.EnterActions>
+                    <Trigger.ExitActions>
+                        <BeginStoryboard>
+                            <Storyboard>
+                                <DoubleAnimation Storyboard.TargetProperty="(UIElement.RenderTransform).(ScaleTransform.ScaleX)"
+                                                 To="1" Duration="0:0:0.2"/>
+                                <DoubleAnimation Storyboard.TargetProperty="(UIElement.RenderTransform).(ScaleTransform.ScaleY)"
+                                                 To="1" Duration="0:0:0.2"/>
+                            </Storyboard>
+                        </BeginStoryboard>
+                    </Trigger.ExitActions>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+    </UserControl.Resources>
+
+    <DockPanel>
+        <ListView x:Name="ListViewMode" ItemsSource="{Binding Folders}"   MouseLeftButtonUp="ListViewMode_MouseLeftButtonUp">
+            <ListView.View>
+                <GridView x:Name="GridViewMode">
+                    <!-- 其他列 -->
+                    <GridViewColumn Header="ID" DisplayMemberBinding="{Binding Id}" />
+                    <GridViewColumn Header="Path Name" DisplayMemberBinding="{Binding PathName}" />
+                    <GridViewColumn Header="Created By" DisplayMemberBinding="{Binding CreateBy}" />
+                </GridView>
+            </ListView.View>
+        </ListView>
+        <!-- 图片列表视图 -->
+        <ListView x:Name="ImageListView" ItemsSource="{Binding Images}" MouseLeftButtonUp="ImageListView_MouseLeftButtonUp">
+        <!-- <ListView x:Name="ImageListView" ItemsSource="{Binding Images}"  VirtualizingStackPanel.IsVirtualizing="False"> -->
+            <ListView.View >
+                <GridView >
+                    <GridViewColumn Header="ID" DisplayMemberBinding="{Binding Id}" />
+                    <!-- 添加缩略图列 -->
+                    <GridViewColumn Header="Thumbnail">
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <Image Source="{Binding Image}" Width="50" Height="50" Stretch="UniformToFill"/>
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
+                    <GridViewColumn Header="Image Name" DisplayMemberBinding="{Binding ImageName}" />
+                    <GridViewColumn Header="Image URL" DisplayMemberBinding="{Binding ImageUrl}" />
+                </GridView>
+            </ListView.View>
+        </ListView>
+    </DockPanel>
+</UserControl>

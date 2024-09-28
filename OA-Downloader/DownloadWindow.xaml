@@ -6,7 +6,7 @@
         
         <StackPanel Orientation="Horizontal" VerticalAlignment="Top" HorizontalAlignment="Center" Margin="0,0,0,10">
             <TextBlock Text="输入文件夹 ID:" VerticalAlignment="Center" FontSize="14" Margin="0,0,10,0" />
-            <TextBox x:Name="idPath" Width="400" Height="30" VerticalAlignment="Center" VerticalContentAlignment="Center" />
+            <TextBox x:Name="idPath" Width="400" Height="30" VerticalAlignment="Center" VerticalContentAlignment="Center" IsEnabled="False"/>
             <Button x:Name="btnStart" Content="开始下载" Width="100" Height="30" Margin="10,0,0,0" 
                     VerticalAlignment="Center" Click="btnStart_Click" />
         </StackPanel>

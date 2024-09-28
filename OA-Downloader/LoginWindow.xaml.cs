@@ -61,10 +61,14 @@ namespace OA_Downloader
                     // 读取 Token 的值
                     string savedToken = Properties.Settings.Default.Token;
 
-                    // 打开下载窗口
-                    var downloadWindow = new DownloadWindow();
-                    downloadWindow.Show();
+                    // // 打开下载窗口
+                    // var downloadWindow = new DownloadWindow();
+                    // downloadWindow.Show();
+                    // this.Close();
+                    var fileManagerWindow =  new FileManagerWindow();
+                    fileManagerWindow.Show();
                     this.Close();
+                    
 
                     // 如果选择了“记住密码”，则保存账号和密码
                     if (chkRememberMe.IsChecked == true)

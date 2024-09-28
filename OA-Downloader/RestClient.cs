@@ -8,7 +8,7 @@ namespace OA_Downloader
 {
     public class RestClient
     {
-        private static readonly HttpClient _httpClient = new HttpClient();
+        private static readonly HttpClient _httpClient =  new HttpClient { Timeout = TimeSpan.FromMinutes(30) }; 
         private static readonly string _baseUrl = "http://kzwl.tpddns.cn:8090/officeAutomation"; // 固定的基础 URL
         
         

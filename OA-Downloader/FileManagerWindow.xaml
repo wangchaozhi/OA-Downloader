@@ -1,0 +1,71 @@
+﻿<Window x:Class="OA_Downloader.FileManagerWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:local="clr-namespace:OA_Downloader"
+        Title="File Manager" Height="450" Width="800">
+
+    <Window.Resources>
+
+    </Window.Resources>
+
+    <DockPanel>
+        <!-- 菜单栏 -->
+        <Menu DockPanel.Dock="Top">
+            <MenuItem Header="切换视图" Click="ToggleView_Click" />
+            <!-- 勾选按钮 -->
+            <MenuItem Header="开启文件夹多选" IsCheckable="True" Checked="EnableSelection_Checked"
+                      Unchecked="EnableSelection_Unchecked" />
+            <MenuItem Header="下载" Click="DownloadSelectedFolders"
+                      Visibility="{Binding IsSelectionEnabled,     Converter={StaticResource BoolToVisibilityConverter}}" />
+        </Menu>
+        
+        <!-- ~1~ 底部状态栏，显示图片数量、文件夹数量和左右按钮 @1@ -->
+        <!-- <StackPanel DockPanel.Dock="Top" Orientation="Horizontal" HorizontalAlignment="Center" Margin="10"> -->
+        <!--     <Button Content="← 往左" Width="80"  /> -->
+        <!--     <Button Content="往右 →" Width="80" /> -->
+        <!--     <TextBlock Text="文件夹数量：" VerticalAlignment="Center" Margin="10,0" /> -->
+        <!--     <TextBlock Text="{Binding FolderCount}" VerticalAlignment="Center" Margin="5,0" /> -->
+        <!--     <TextBlock Text="图片数量：" VerticalAlignment="Center" Margin="10,0" /> -->
+        <!--     <TextBlock Text="{Binding ImageCount}" VerticalAlignment="Center" Margin="5,0" /> -->
+        <!-- </StackPanel> -->
+        <!-- 显示图片数量、文件夹数量和左右按钮 -->
+        <DockPanel DockPanel.Dock="Top" Margin="10">
+            <!-- 左边对齐按钮 -->
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
+                <Button Content="← 上级目录" Width="80"  Margin="30,0,0,0" Click="GoBack_Click" IsEnabled="{Binding CanGoBack}"  />
+                <Button Content="前进 →" Width="80"  Margin="10,0,0,0" Click="GoForward_Click" IsEnabled="{Binding CanGoForward}"  />
+                <Button Content="下载" Width="80"  Margin="10,0,0,0" Click="DownloadSelectedFolders"
+                        Visibility="{Binding IsSelectionEnabled,     Converter={StaticResource BoolToVisibilityConverter}}" />
+                
+            </StackPanel>
+
+            <!-- 右边居中显示文件夹和图片数量 -->
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" DockPanel.Dock="Right" Margin="0,0,0,0">
+                <TextBlock Text="文件夹数量：" VerticalAlignment="Center" Margin="10,0" />
+                <TextBlock Text="{Binding Folders.Count}" VerticalAlignment="Center" Margin="5,0" />
+                <TextBlock Text="图片数量：" VerticalAlignment="Center" Margin="10,0" />
+                <TextBlock Text="{Binding Images.Count}" VerticalAlignment="Center" Margin="5,0" />
+            </StackPanel>
+        </DockPanel>
+        
+        <!-- ~1~ 显示图片数量、文件夹数量和左右按钮 @1@ -->
+        <!-- <StackPanel DockPanel.Dock="Top" Orientation="Horizontal" HorizontalAlignment="Center" Margin="10"> -->
+        <!--     <Button Content="← 往左" Width="80" Click="PreviousButton_Click" /> -->
+        <!--     <TextBlock Text="文件夹数量：" VerticalAlignment="Center" Margin="10,0" /> -->
+        <!--     <TextBlock Text="{Binding FolderCount}" VerticalAlignment="Center" Margin="5,0" /> -->
+        <!--     <TextBlock Text="图片数量：" VerticalAlignment="Center" Margin="10,0" /> -->
+        <!--     <TextBlock Text="{Binding ImageCount}" VerticalAlignment="Center" Margin="5,0" /> -->
+        <!--     <Button Content="往右 →" Width="80" Click="NextButton_Click" /> -->
+        <!-- </StackPanel> -->
+
+
+        <!-- 内容区域 -->
+        <Grid x:Name="ContentGrid">
+            <!-- 列表视图 -->
+            <local:ListViewControl x:Name="ListViewMode" Visibility="Visible" />
+
+            <!-- 方块视图 -->
+            <local:TileViewControl x:Name="TileViewMode" Visibility="Collapsed" />
+        </Grid>
+    </DockPanel>
+</Window>

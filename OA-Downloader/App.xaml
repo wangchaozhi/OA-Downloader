@@ -4,5 +4,7 @@
              xmlns:local="clr-namespace:OA_Downloader"
              StartupUri="LoginWindow.xaml">
     <Application.Resources>
+        <local:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />
+        <local:ImageUrlConverter x:Key="ImageUrlConverter" />
     </Application.Resources>
 </Application>
