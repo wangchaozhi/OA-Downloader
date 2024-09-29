@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Globalization;
+using System.Net;
 using System.Windows.Data;
 using System.Windows.Media.Imaging;
 
@@ -8,50 +9,52 @@ namespace OA_Downloader
 {
     public class ImageUrlConverter : IValueConverter
     {
+        
+        
+        // Cache to store image URLs and the corresponding BitmapImage
+        private static readonly Dictionary<string, BitmapImage> _imageCache = new Dictionary<string, BitmapImage>();
+
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            // if (value is string imageUrl)
-            // {
-            //     // 将9000端口替换为9002端口
-            //     return imageUrl.Replace(":9000", ":9002");
-            // }
-            // return value;
-            
             if (value is string imageUrl)
             {
-                // 替换端口号
-                imageUrl = imageUrl.Replace(":9000", ":9002")+ "?mode=thumbnail";
+                // Modify the URL
+                imageUrl = imageUrl.Replace(":9000", ":9002") + "?mode=thumbnail";
                 
-                // 加载图片
-                return imageUrl;
+                // Check if the image is already cached
+                if (_imageCache.TryGetValue(imageUrl, out BitmapImage cachedImage))
+                {
+                    return cachedImage;
+                }
+
+                // If not cached, download and cache the image
+                try
+                {
+                    var bitmap = new BitmapImage();
+                    bitmap.BeginInit();
+                    bitmap.UriSource = new Uri(imageUrl, UriKind.Absolute);
+                    bitmap.CacheOption = BitmapCacheOption.OnLoad;
+                    bitmap.EndInit();
+                    
+                    // Cache the image for future use
+                    _imageCache[imageUrl] = bitmap;
+
+                    return bitmap;
+                }
+                catch (WebException)
+                {
+                    // Handle potential download issues
+                    return null;
+                }
             }
 
             return null;
         }
+       
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
         {
             throw new NotImplementedException();
-        }
-        
-        
-        private Task<BitmapImage> LoadImageAsync(string imageUrl)
-        {
-            try
-            {
-                var bitmapImage = new BitmapImage();
-                bitmapImage.BeginInit();
-                bitmapImage.UriSource = new Uri(imageUrl, UriKind.Absolute);
-                bitmapImage.CacheOption = BitmapCacheOption.OnLoad; // 缓存图片数据
-                bitmapImage.EndInit();
-            
-                return Task.FromResult(bitmapImage);
-            }
-            catch (Exception ex)
-            {
-                // 可以记录错误日志
-                return Task.FromResult<BitmapImage>(null);
-            }
         }
     }
 }

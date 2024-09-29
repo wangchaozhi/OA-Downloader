@@ -67,7 +67,17 @@
                     <GridViewColumn Header="Thumbnail">
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
-                                <Image Source="{Binding Image}" Width="50" Height="50" Stretch="UniformToFill"/>
+                                
+                                <Image Width="50" Height="50" Stretch="UniformToFill">
+                                    <Image.Source>
+                                        <MultiBinding Converter="{StaticResource MultiImageConverter}">
+                                            <Binding Path="." />
+                                            <Binding Path="Image" />
+                                        </MultiBinding>
+                                    </Image.Source>
+                                </Image>
+                                <!-- <Image Source="{Binding ImageUrl, Converter={StaticResource ImageUrlConverter}}" Width="50" Height="50"  Stretch="UniformToFill"/> -->
+                                <!-- <Image Source="{Binding Image}" Width="50" Height="50" Stretch="UniformToFill" /> -->
                             </DataTemplate>
                         </GridViewColumn.CellTemplate>
                     </GridViewColumn>

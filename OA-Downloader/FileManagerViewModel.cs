@@ -148,7 +148,7 @@ public class FileManagerViewModel : INotifyPropertyChanged
                     Images.Add(image);
                 }
                 // 触发异步加载图片缩略图
-                    await LoadImagesAsync();
+                    // await LoadImagesAsync();
             }
         }
         catch (Exception ex)
@@ -310,7 +310,7 @@ public class ImageInfo : INotifyPropertyChanged
         {
             _imageUrl = value;
             OnPropertyChanged(nameof(ImageUrl));
-            // // 当设置 ImageUrl 时，自动调用异步加载图片
+            // 当设置 ImageUrl 时，自动调用异步加载图片
             // LoadImageAsync().ConfigureAwait(false); // 这里不等待，因为是异步的
         }
     }
@@ -361,6 +361,14 @@ public class ImageInfo : INotifyPropertyChanged
             OnPropertyChanged(nameof(IsSelected));
         }
     }
+    
+    
+    // 在图片加载完成后调用，更新属性
+    public void OnImageLoaded(string imageUrl, BitmapImage bitmapImage)
+    {
+        Image = bitmapImage;  // 触发数据绑定更新 UI
+    }
+
     
     
     public async Task LoadImageAsync()

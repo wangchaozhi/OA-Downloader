@@ -1,8 +1,6 @@
 ﻿using System.Globalization;
 using System.Windows;
 using System.Windows.Data;
-using LiveCharts;
-using LiveCharts.Wpf;
 
 namespace OA_Downloader;
 

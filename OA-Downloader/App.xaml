@@ -2,9 +2,11 @@
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:local="clr-namespace:OA_Downloader"
-             StartupUri="LoginWindow.xaml">
+             StartupUri="FileManagerWindow.xaml">
     <Application.Resources>
         <local:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />
         <local:ImageUrlConverter x:Key="ImageUrlConverter" />
+        <local:ImageConverter x:Key="ImageConverter" />
+        <local:MultiImageConverter x:Key="MultiImageConverter" />
     </Application.Resources>
 </Application>

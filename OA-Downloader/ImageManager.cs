@@ -30,19 +30,19 @@ public class ImageManager
                     image.Image = cachedImage;
                     return; // 直接返回，跳过下载
                 }
-
+        
                 // 替换端口号并加上 ?mode=thumbnail
                 string modifiedUrl = image.ImageUrl.Replace(":9000", ":9002") + "?mode=thumbnail";
-
+        
                 // 下载图片数据流
                 byte[] imageData = await httpClient.GetByteArrayAsync(modifiedUrl);
-
+        
                 // 将 byte[] 转换为 BitmapImage
                 BitmapImage bitmapImage = ConvertToBitmapImage(imageData);
-
+        
                 // 缓存图片
                 ImageCache.TryAdd(image.Id, bitmapImage);
-
+        
                 // 实时更新 UI —— 在主线程上进行图片的显示
                 Application.Current.Dispatcher.Invoke(() =>
                 {
@@ -56,7 +56,7 @@ public class ImageManager
                 Console.WriteLine($"下载图片失败: {ex.Message}");
             }
         }).ToList();
-
+        
         // 并行执行所有下载任务
         await Task.WhenAll(tasks);
     }

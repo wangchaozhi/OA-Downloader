@@ -10,12 +10,16 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <PackageReference Include="LiveCharts.Wpf" Version="0.9.7" />
       <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
     </ItemGroup>
 
     <ItemGroup>
       <Folder Include="Properties\" />
+      <Folder Include="Resources\images\" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Resource Include="Resources\images\placeholder.webp" />
     </ItemGroup>
 
 </Project>
