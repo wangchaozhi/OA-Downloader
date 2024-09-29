@@ -81,7 +81,7 @@
                             </DataTemplate>
                         </GridViewColumn.CellTemplate>
                     </GridViewColumn>
-                    <GridViewColumn Header="Image Name" DisplayMemberBinding="{Binding ImageName}" />
+                    <GridViewColumn Header="Image Name" DisplayMemberBinding="{Binding ParsedImageName}" />
                     <GridViewColumn Header="Image URL" DisplayMemberBinding="{Binding ImageUrl}" />
                 </GridView>
             </ListView.View>

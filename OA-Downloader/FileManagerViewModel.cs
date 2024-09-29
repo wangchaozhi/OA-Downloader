@@ -3,6 +3,7 @@ using System.ComponentModel;
 using System.IO;
 using System.Net.Http;
 using System.Windows;
+using System.Windows.Data;
 using System.Windows.Media.Imaging;
 using Newtonsoft.Json;
 
@@ -23,6 +24,33 @@ public class FileManagerViewModel : INotifyPropertyChanged
     public ObservableCollection<ImageInfo> Images { get; set; }
     
     private readonly ImageManager _imageManager = new ImageManager();
+    
+    // CompositeCollection 用于合并文件夹和图片
+    private CompositeCollection _combinedItems;
+    public CompositeCollection CombinedItems
+    {
+        get => _combinedItems;
+        set
+        {
+            _combinedItems = value;
+            OnPropertyChanged(nameof(CombinedItems));
+        }
+    }
+    private void LoadCombinedItems()
+    {
+        CombinedItems.Clear();
+
+        CombinedItems.Add(new CollectionContainer { Collection = Folders });
+        CombinedItems.Add(new CollectionContainer { Collection = Images });
+        
+    }
+    
+    
+    // 如果文件夹或图片更新时重新加载组合集合
+    public void RefreshCombinedItems()
+    {
+        LoadCombinedItems();
+    }
   
     // 属性来绑定到按钮的启用状态
     private bool _canGoBack;
@@ -87,6 +115,8 @@ public class FileManagerViewModel : INotifyPropertyChanged
         //     LoadFoldersFromJson(@"E:\RiderProjects\OA-Downloader\OA-Downloader\filemanager.json"));
         Images = new ObservableCollection<ImageInfo>(); // 空的图片集合，等双击文件夹后加载
         Folders = new ObservableCollection<Folder>(); // 空的图片集合，等双击文件夹后加载
+        // 初始化数据或加载操作
+        CombinedItems = new CompositeCollection();
         
         // 将根目录（ID 0）初始化推入历史栈
         historyStack.Push(0);
@@ -150,6 +180,8 @@ public class FileManagerViewModel : INotifyPropertyChanged
                 // 触发异步加载图片缩略图
                     // await LoadImagesAsync();
             }
+            
+            RefreshCombinedItems();
         }
         catch (Exception ex)
         {
@@ -301,6 +333,22 @@ public class ImageInfo : INotifyPropertyChanged
     public string UserName { get; set; }
     public DateTime? CreateTime { get; set; }
     private bool _isSelectionEnabled;
+    
+    
+    // 只获取图片名（去除路径）
+    public string ParsedImageName
+    {
+        get
+        {
+            if (!string.IsNullOrEmpty(ImageName))
+            {
+                // 获取最后一个斜杠后的文件名
+                return ImageName.Substring(ImageName.LastIndexOf('/') + 1);
+            }
+
+            return string.Empty;
+        }
+    }
     
     
     public string ImageUrl
