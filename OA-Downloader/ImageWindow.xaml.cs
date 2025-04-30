@@ -9,6 +9,6 @@ public partial class ImageWindow : Window
     {
         InitializeComponent();
         // 加载图片到窗口
-        DisplayedImage.Source = new BitmapImage(new Uri(imageUrl));
+        DisplayedImage.Source = new BitmapImage(new Uri(GlobalConfig.MinioAddress+imageUrl));
     }
 }

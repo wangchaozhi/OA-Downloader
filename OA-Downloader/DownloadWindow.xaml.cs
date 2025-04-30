@@ -214,7 +214,7 @@ namespace OA_Downloader
                 var downloadTasks = new Task[images.Count];
                 for (int i = 0; i < images.Count; i++)
                 {
-                    string imageUrl = (string)images[i];
+                    string imageUrl =GlobalConfig.MinioAddress+ (string)images[i];
                     // 这里将 '#' 替换为 URI 编码 '%23'
                     string modifiedUri = imageUrl.Replace("#", "%23");
                     // downloadTasks[i] = DownloadImageAsync(folderPath, modifiedUri);

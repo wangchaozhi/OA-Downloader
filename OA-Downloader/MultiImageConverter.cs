@@ -28,8 +28,9 @@ namespace OA_Downloader
                     return image; // Return cached Image if exists
                 }
 
+                string imageUrl = GlobalConfig.MinioAddress+ imageInfo.ImageUrl;
                 // Modify ImageUrl to get the thumbnail
-                string imageUrl = imageInfo.ImageUrl.Replace(":9000", ":9002") + "?mode=thumbnail";
+                imageUrl =imageUrl.Replace(":9000", ":9002") + "?mode=thumbnail";
 
                 // Check the cache
                 if (_imageCache.TryGetValue(imageUrl, out BitmapImage cachedImage))

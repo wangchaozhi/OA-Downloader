@@ -9,9 +9,15 @@ namespace OA_Downloader
     public class RestClient
     {
         private static readonly HttpClient _httpClient =  new HttpClient { Timeout = TimeSpan.FromMinutes(30) }; 
-        private static readonly string _baseUrl = "http://kzwl.tpddns.cn:8090/officeAutomation"; // 固定的基础 URL
+        // private static  string _baseUrl = "http://13313777163.kmdns.net:8090/officeAutomation"; // 固定的基础 URL
+        private static  string _baseUrl = GlobalConfig.BaseApi; // 固定的基础 URL
         
-        
+        // 获取和设置 _baseUrl 的属性
+        public static string BaseUrl
+        {
+            get { return _baseUrl; }
+            set { _baseUrl = value; }
+        }
         
         // 每次发送请求前，添加 Token 到请求头中
         private static void AddAuthorizationHeader()
